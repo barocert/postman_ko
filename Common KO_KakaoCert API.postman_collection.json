@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "59e471ca-a276-4f5a-84c8-af1f810015f9",
+		"_postman_id": "bca314b3-c66e-4a25-bcb8-aa22e505b9c7",
 		"name": "Common KO_KakaoCert API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
@@ -117,20 +117,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "https://auth.linkhub.co.kr/BAROCERT/Token",
-					"protocol": "https",
-					"host": [
-						"auth",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"BAROCERT",
-						"Token"
-					]
-				},
+				"url": "https://auth.linkhub.co.kr/BAROCERT/Token",
 				"description": "ㆍBAROCERT API 사용에 필요한 Token Request."
 			},
 			"response": []
@@ -151,6 +138,7 @@
 							"const uri = pm.request.url.getPath();",
 							"/**",
 							" *  본인인증 요청 정보 객체",
+							" *  https://developers.barocert.com/reference/kakao/java/identity/api#RequestIdentity",
 							" */",
 							"var TokenRequest = stringify({",
 							"",
@@ -249,21 +237,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/Identity/023040000001",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"Identity",
-						"023040000001"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/Identity/023040000001",
 				"description": "카카오톡 사용자에게 본인인증 전자서명을 요청합니다."
 			},
 			"response": []
@@ -280,9 +254,13 @@
 							" * GetToken을 실행하면 Bearer Token 인증에 사용되는 토큰이 Collection Scope 변수에 저장됩니다.",
 							" */",
 							"",
-							"// 이용기관코드, 파트너 사이트에서 확인",
-							"var receiptID = '02305080230400000010000000000002'",
+							"/**",
+							" *  본인인증 상태확인",
+							" *  https://developers.barocert.com/reference/kakao/java/identity/api#GetIdentityStatus",
+							" */",
 							"// 본인인증 요청시 반환받은 접수아이디",
+							"var receiptID = '02305080230400000010000000000002'",
+							"// 이용기관코드, 파트너 사이트에서 확인",
 							"const clientCode = \"023040000001\";",
 							"pm.collectionVariables.set(\"receiptID\", receiptID);",
 							"pm.collectionVariables.set(\"clientCode\", clientCode);"
@@ -310,22 +288,7 @@
 						"value": "2.0"
 					}
 				],
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/Identity/{{clientCode}}/{{receiptID}}",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"Identity",
-						"{{clientCode}}",
-						"{{receiptID}}"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/Identity/{{clientCode}}/{{receiptID}}",
 				"description": "본인인증 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다."
 			},
 			"response": []
@@ -345,6 +308,10 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"",
+							"/**",
+							" *  본인인증 검증",
+							" *  https://developers.barocert.com/reference/kakao/java/identity/api#VerifyIdentity",
+							" */",
 							"var RequestDT = new Date().toISOString();",
 							"",
 							"var digestTarget =",
@@ -397,22 +364,7 @@
 						"value": "{{x-bc-auth}}"
 					}
 				],
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/Identity/023040000001/02305080230400000010000000000002",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"Identity",
-						"023040000001",
-						"02305080230400000010000000000002"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/Identity/023040000001/02305080230400000010000000000002",
 				"description": "본인인증 요청시 반환된 접수아이디를 통해 본인인증 서명을 검증합니다. \r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
 			},
 			"response": []
@@ -432,7 +384,8 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"/**",
-							" *  전자서명 요청정보 객체",
+							" *  전자서명 요청정보 객체 (단건)",
+							" *  https://developers.barocert.com/reference/kakao/java/sign/api-single#RequestSign",
 							" */",
 							"var TokenRequest = stringify({",
 							"    ",
@@ -534,21 +487,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/Sign/023040000001",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"Sign",
-						"023040000001"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/Sign/023040000001",
 				"description": "카카오톡 사용자에게 전자서명을 요청합니다.(단건)"
 			},
 			"response": []
@@ -565,9 +504,13 @@
 							" * GetToken을 실행하면 Bearer Token 인증에 사용되는 토큰이 Collection Scope 변수에 저장됩니다.",
 							" */",
 							"",
-							"// 이용기관코드, 파트너 사이트에서 확인",
-							"var receiptID = '02305080230400000010000000000004'",
+							"/**",
+							" *  전자서명 상태확인 (단건)",
+							" *  https://developers.barocert.com/reference/kakao/java/sign/api-single#GetSignStatus",
+							" */",
 							"// 전자서명 요청시 반환받은 접수아이디",
+							"var receiptID = '02305080230400000010000000000004'",
+							"// 이용기관코드, 파트너 사이트에서 확인",
 							"const clientCode = \"023040000001\";",
 							"pm.collectionVariables.set(\"receiptID\", receiptID);",
 							"pm.collectionVariables.set(\"clientCode\", clientCode);"
@@ -595,22 +538,7 @@
 						"value": "2.0"
 					}
 				],
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/Sign/{{clientCode}}/{{receiptID}}",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"Sign",
-						"{{clientCode}}",
-						"{{receiptID}}"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/Sign/{{clientCode}}/{{receiptID}}",
 				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다. (단건)"
 			},
 			"response": []
@@ -630,6 +558,10 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"",
+							"/**",
+							" *  전자서명 검증 (단건)",
+							" *  https://developers.barocert.com/reference/kakao/java/sign/api-single#VerifySign",
+							" */",
 							"var RequestDT = new Date().toISOString();",
 							"",
 							"var digestTarget =",
@@ -682,22 +614,7 @@
 						"value": "{{x-bc-auth}}"
 					}
 				],
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/Sign/023040000001/02305080230400000010000000000004",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"Sign",
-						"023040000001",
-						"02305080230400000010000000000004"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/Sign/023040000001/02305080230400000010000000000004",
 				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다. (단건)\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
 			},
 			"response": []
@@ -717,7 +634,8 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"/**",
-							" *  전자서명 요청 정보 객체",
+							" *  전자서명 요청 정보 객체 (복수)",
+							" *  https://developers.barocert.com/reference/kakao/java/sign/api-multi#RequestMultiSign",
 							" */",
 							"var TokenRequest = stringify({",
 							"    ",
@@ -833,21 +751,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/023040000001",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"MultiSign",
-						"023040000001"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/023040000001",
 				"description": "카카오톡 사용자에게 전자서명을 요청합니다.(복수)"
 			},
 			"response": []
@@ -864,9 +768,13 @@
 							" * GetToken을 실행하면 Bearer Token 인증에 사용되는 토큰이 Collection Scope 변수에 저장됩니다.",
 							" */",
 							"",
-							"// 이용기관코드, 파트너 사이트에서 확인",
-							"var receiptID = '02305080230400000010000000000005'",
+							"/**",
+							" *  전자서명 상태확인 (복수)",
+							" *  https://developers.barocert.com/reference/kakao/java/sign/api-multi#GetMultiSignStatus",
+							" */",
 							"// 전자서명 요청시 반환받은 접수아이디",
+							"var receiptID = '02305080230400000010000000000005'",
+							"// 이용기관코드, 파트너 사이트에서 확인",
 							"const clientCode = \"023040000001\";",
 							"pm.collectionVariables.set(\"receiptID\", receiptID);",
 							"pm.collectionVariables.set(\"clientCode\", clientCode);"
@@ -894,22 +802,7 @@
 						"value": "2.0"
 					}
 				],
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/{{clientCode}}/{{receiptID}}",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"MultiSign",
-						"{{clientCode}}",
-						"{{receiptID}}"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/{{clientCode}}/{{receiptID}}",
 				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다. (복수)"
 			},
 			"response": []
@@ -929,6 +822,10 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"",
+							"/**",
+							" *  전자서명 검증 (복수)",
+							" *  https://developers.barocert.com/reference/kakao/java/sign/api-multi#VerifyMultiSign",
+							" */",
 							"var RequestDT = new Date().toISOString();",
 							"",
 							"var digestTarget =",
@@ -981,22 +878,7 @@
 						"value": "{{x-bc-auth}}"
 					}
 				],
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/023040000001/02305080230400000010000000000005",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"MultiSign",
-						"023040000001",
-						"02305080230400000010000000000005"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/023040000001/02305080230400000010000000000005",
 				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다. (복수)\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
 			},
 			"response": []
@@ -1017,6 +899,7 @@
 							"const uri = pm.request.url.getPath();",
 							"/**",
 							" *  자동이체 출금동의 요청 정보 객체",
+							" *  https://developers.barocert.com/reference/kakao/java/cms/api#RequestCMS",
 							" */",
 							"var TokenRequest = stringify({",
 							"    ",
@@ -1127,21 +1010,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/CMS/023040000001",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"CMS",
-						"023040000001"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/CMS/023040000001",
 				"description": "카카오톡 사용자에게 자동이체 출금동의 전자서명을 요청합니다."
 			},
 			"response": []
@@ -1158,9 +1027,13 @@
 							" * GetToken을 실행하면 Bearer Token 인증에 사용되는 토큰이 Collection Scope 변수에 저장됩니다.",
 							" */",
 							"",
-							"// 이용기관코드, 파트너 사이트에서 확인",
-							"var receiptID = '02305080230400000010000000000006'",
+							"/**",
+							" *  자동이체 출금동의 상태확인",
+							" *  https://developers.barocert.com/reference/kakao/java/cms/api#GetCMSStatus",
+							" */",
 							"// 자동이체 풀금동의 요청시 반환받은 접수아이디",
+							"var receiptID = '02305080230400000010000000000006'",
+							"// 이용기관코드, 파트너 사이트에서 확인",
 							"const clientCode = \"023040000001\";",
 							"pm.collectionVariables.set(\"receiptID\", receiptID);",
 							"pm.collectionVariables.set(\"clientCode\", clientCode);"
@@ -1188,22 +1061,7 @@
 						"value": "2.0"
 					}
 				],
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/CMS/{{clientCode}}/{{receiptID}}",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"CMS",
-						"{{clientCode}}",
-						"{{receiptID}}"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/CMS/{{clientCode}}/{{receiptID}}",
 				"description": "자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다."
 			},
 			"response": []
@@ -1223,6 +1081,10 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"",
+							"/**",
+							" *  자동이체 출금동의 검증",
+							" *  https://developers.barocert.com/reference/kakao/java/cms/api#VerifyCMS",
+							" */",
 							"var RequestDT = new Date().toISOString();",
 							"",
 							"var digestTarget =",
@@ -1275,22 +1137,7 @@
 						"value": "{{x-bc-auth}}"
 					}
 				],
-				"url": {
-					"raw": "https://barocert.linkhub.co.kr/KAKAO/CMS/023040000001/02305080230400000010000000000006",
-					"protocol": "https",
-					"host": [
-						"barocert",
-						"linkhub",
-						"co",
-						"kr"
-					],
-					"path": [
-						"KAKAO",
-						"CMS",
-						"023040000001",
-						"02305080230400000010000000000006"
-					]
-				},
+				"url": "https://barocert.linkhub.co.kr/KAKAO/CMS/023040000001/02305080230400000010000000000006",
 				"description": "자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다."
 			},
 			"response": []
