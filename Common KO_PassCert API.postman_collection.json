@@ -251,7 +251,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Identity/023070000014",
-				"description": "카카오톡 사용자에게 본인인증 전자서명을 요청합니다."
+				"description": "패스 이용자에게 본인인증을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/identity/api#RequestIdentity"
 			},
 			"response": []
 		},
@@ -304,7 +304,7 @@
 					}
 				],
 				"url": "https://barocert.linkhub.co.kr/PASS/Identity/{{clientCode}}/{{receiptID}}",
-				"description": "본인인증 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다."
+				"description": "본인인증 요청 후 반환받은 접수아이디로 본인인증 진행 상태를 확인합니다.\n상태확인 함수는 본인인증 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n본인인증 요청 함수를 호출한 당일 23시 59분 59초 이후 상태확인 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/identity/api#GetIdentityStatus"
 			},
 			"response": []
 		},
@@ -416,7 +416,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Identity/023070000014/02310100230700000140000000000002",
-				"description": "본인인증 요청시 반환된 접수아이디를 통해 본인인증 서명을 검증합니다. \r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n반환받은 전자서명값(signedData)과 [1. RequestIdentity] 함수 호출에 입력한 Token의 동일 여부를 확인하여 이용자의 본인인증 검증을 완료합니다.\n검증 함수는 본인인증 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n본인인증 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/identity/api#VerifyIdentity"
 			},
 			"response": []
 		},
@@ -562,7 +562,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Sign/023070000014",
-				"description": "카카오톡 사용자에게 전자서명을 요청합니다.(단건)"
+				"description": "패스 이용자에게 문서의 전자서명을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/sign/api#RequestSign"
 			},
 			"response": []
 		},
@@ -617,7 +617,7 @@
 					}
 				],
 				"url": "https://barocert.linkhub.co.kr/PASS/Sign/{{clientCode}}/{{receiptID}}",
-				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다. (단건)"
+				"description": "전자서명 요청 후 반환받은 접수아이디로 인증 진행 상태를 확인합니다.\n상태확인 함수는 전자서명 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n전자서명 요청 함수를 호출한 당일 23시 59분 59초 이후 상태확인 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/sign/api#GetSignStatus"
 			},
 			"response": []
 		},
@@ -725,7 +725,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Sign/023070000014/02310100230700000140000000000006",
-				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다. (단건)\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 전자서명 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n전자서명 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/sign/api#VerifySign"
 			},
 			"response": []
 		},
@@ -858,7 +858,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Login/023070000014",
-				"description": "카카오톡 사용자에게 전자서명을 요청합니다.(복수)"
+				"description": "패스 이용자에게 간편로그인을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/login/api#RequestLogin"
 			},
 			"response": []
 		},
@@ -911,7 +911,7 @@
 					}
 				],
 				"url": "https://barocert.linkhub.co.kr/PASS/Login/{{clientCode}}/{{receiptID}}",
-				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다. (복수)"
+				"description": "간편로그인 요청 후 반환받은 접수아이디로 진행 상태를 확인합니다.\n상태확인 함수는 간편로그인 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n간편로그인 요청 함수를 호출한 당일 23시 59분 59초 이후 상태확인 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/login/api#GetLoginStatus"
 			},
 			"response": []
 		},
@@ -1019,7 +1019,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Login/023070000014/02310100230700000140000000000004",
-				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다. (복수)\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 간편로그인 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n간편로그인 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/login/api#VerifyLogin"
 			},
 			"response": []
 		},
@@ -1039,7 +1039,7 @@
 							"const uri = pm.request.url.getPath();",
 							"/**",
 							" *  패스 이용자에게 자동이체 출금동의를 요청합니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/cms/api#RequestCMS",
+							" *  https://developers.barocert.com/reference/pass/java/cms/api#RequestCMS",
 							" */",
 							"var TokenRequest = stringify({",
 							"    ",
@@ -1160,7 +1160,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/CMS/023070000014",
-				"description": "카카오톡 사용자에게 자동이체 출금동의 전자서명을 요청합니다."
+				"description": "패스 이용자에게 자동이체 출금동의를 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/cms/api#RequestCMS"
 			},
 			"response": []
 		},
@@ -1213,7 +1213,7 @@
 					}
 				],
 				"url": "https://barocert.linkhub.co.kr/PASS/CMS/{{clientCode}}/{{receiptID}}",
-				"description": "자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다."
+				"description": "자동이체 출금동의 요청 후 반환받은 접수아이디로 인증 진행 상태를 확인합니다.\n상태확인 함수는 자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초 이후 상태확인 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/cms/api#GetCMSStatus"
 			},
 			"response": []
 		},
@@ -1321,7 +1321,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/CMS/023070000014/02310100230700000140000000000007",
-				"description": "자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다."
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/cms/api#VerifyCMS"
 			},
 			"response": []
 		}
