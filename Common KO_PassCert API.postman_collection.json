@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "139b9dca-ac54-4cf2-85b7-42d6a50d1e4f",
-		"name": "Common KO_KakaoCert API",
+		"_postman_id": "e970d203-511a-460a-953f-b25f5fe5b498",
+		"name": "Common KO_PassCert API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
@@ -29,7 +29,7 @@
 							"",
 							"// Scopes 배열은 발급된 토큰으로 사용할 수 있는 서비스 코드 목록입니다.",
 							"var Access_id = ''; // 사업자번호.",
-							"var Scopes = ['partner', '401','402','403','404', '405'];",
+							"var Scopes = ['partner', '441','442','443','444'];",
 							"var TokenRequest = stringify({access_id : Access_id, scope : Scopes});",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
 							"",
@@ -137,8 +137,8 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"/**",
-							" *  카카오톡 이용자에게 본인인증을 요청합니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/identity/api#RequestIdentity",
+							" *  패스 이용자에게 본인인증을 요청합니다.",
+							" *  https://developers.barocert.com/reference/pass/java/identity/api#RequestIdentity",
 							" */",
 							"var TokenRequest = stringify({",
 							"",
@@ -151,16 +151,29 @@
 							"",
 							"    // 인증요청 메시지 제목 - 최대 40자",
 							"    reqTitle: '인증요청 메시지 제목란',",
+							"    // 인증요청 메시지 - 최대 500자",
+							"    reqMessage: _AES256CBC('인증요청 메시지 내용란'),",
+							"    // 고객센터 연락처 - 최대 12자",
+							"    callCenterNum: '1600-9854',",
 							"    // 인증요청 만료시간 - 최대 1,000(초)까지 입력 가능",
 							"    expireIn: 1000,",
 							"    // 서명 원문 - 최대 2,800자 까지 입력가능",
 							"    token: _AES256CBC('본인인증요청토큰'),",
 							"",
+							"    // 사용자 동의 필요 여부",
+							"    userAgreementYN: true,",
+							"    // 사용자 정보 포함 여부",
+							"    receiverInfoYN: true,",
+							"",
 							"    // AppToApp 인증요청 여부",
-							"    // true - AppToApp 인증방식, false - Talk Message 인증방식",
+							"    // true - AppToApp 인증방식, false - Push 인증방식",
 							"    appUseYN: false,",
-							"    // App to App 방식 이용시, 호출할 URL",
-							"    returnURL: 'https://www.kakaocert.com'",
+							"    // ApptoApp 인증방식에서 사용",
+							"    // 통신사 유형('SKT', 'KT', 'LGU'), 대문자 입력(대소문자 구분)",
+							"    // telcoType: 'SKT',",
+							"    // ApptoApp 인증방식에서 사용",
+							"    // 모바일장비 유형('ANDROID', 'IOS'), 대문자 입력(대소문자 구분)",
+							"    // deviceOSType: 'ANDROID',",
 							"});",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
@@ -237,7 +250,7 @@
 						}
 					}
 				},
-				"url": "https://barocert.linkhub.co.kr/KAKAO/Identity/023040000001",
+				"url": "https://barocert.linkhub.co.kr/PASS/Identity/023070000014",
 				"description": "카카오톡 사용자에게 본인인증 전자서명을 요청합니다."
 			},
 			"response": []
@@ -256,12 +269,14 @@
 							"",
 							"/**",
 							" *  본인인증 요청 후 반환받은 접수아이디로 본인인증 진행 상태를 확인합니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/identity/api#GetIdentityStatus",
+							" *  상태확인 함수는 본인인증 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.",
+							" *  본인인증 요청 함수를 호출한 당일 23시 59분 59초 이후 상태확인 함수를 호출할 경우 오류가 반환됩니다.",
+							" *  https://developers.barocert.com/reference/pass/java/identity/api#GetIdentityStatus",
 							" */",
 							"// 본인인증 요청시 반환받은 접수아이디",
-							"var receiptID = '02310100230400000010000000000002'",
+							"var receiptID = '02310100230700000140000000000002'",
 							"// 이용기관코드, 파트너 사이트에서 확인",
-							"const clientCode = \"023040000001\";",
+							"const clientCode = \"023070000014\";",
 							"pm.collectionVariables.set(\"receiptID\", receiptID);",
 							"pm.collectionVariables.set(\"clientCode\", clientCode);"
 						],
@@ -288,7 +303,7 @@
 						"value": "2.1"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/Identity/{{clientCode}}/{{receiptID}}",
+				"url": "https://barocert.linkhub.co.kr/PASS/Identity/{{clientCode}}/{{receiptID}}",
 				"description": "본인인증 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다."
 			},
 			"response": []
@@ -311,22 +326,31 @@
 							"/**",
 							" *  완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.",
 							" *  반환받은 전자서명값(signedData)과 [1. RequestIdentity] 함수 호출에 입력한 Token의 동일 여부를 확인하여 이용자의 본인인증 검증을 완료합니다.",
-							" *  카카오 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.",
-							" *  전자서명 완료일시로부터 10분 이후에 검증 API를 호출하면 오류가 반환됩니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/identity/api#VerifyIdentity",
+							" *  검증 함수는 본인인증 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.",
+							" *  본인인증 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.",
+							" *  https://developers.barocert.com/reference/pass/java/identity/api#VerifyIdentity",
 							" */",
+							"var TokenVerify = stringify({",
+							"    // 수신자 휴대폰번호 - 11자 (하이픈 제외)",
+							"    receiverHP: _AES256CBC('01012341234'),",
+							"    // 수신자 성명 - 80자",
+							"    receiverName: _AES256CBC('홍길동'),",
+							"});",
+							"var Body = CryptoJS.SHA256(TokenVerify).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
 							"",
 							"var digestTarget =",
 							"      'POST\\n' +",
+							"      Body + '\\n' +",
 							"      RequestDT +'\\n' +",
 							"      uri + '\\n';",
-							"",
+							"      ",
 							"var Authorization = generateSignature(digestTarget, SecretKey);",
 							"",
 							"// HMAC 인증을 위한 요청 헤더.",
 							"pm.collectionVariables.set(\"x-bc-auth\", Authorization);",
 							"pm.collectionVariables.set(\"x-bc-date\", RequestDT);",
+							"pm.collectionVariables.set(\"TokenVerify\", TokenVerify);",
 							"",
 							"function stringify(obj) {",
 							"  return JSON.stringify(obj,function(key,value){return !value ? undefined : value;});",
@@ -337,12 +361,22 @@
 							"    var enc = CryptoJS.HmacSHA256(message, keyDec).toString(CryptoJS.enc.Base64);",
 							"    return enc;",
 							"}",
+							"",
+							"function _AES256CBC(plainText) {",
+							"    const iv = CryptoJS.lib.WordArray.random(16);",
+							"    const encrypted = CryptoJS.AES.encrypt(plainText,CryptoJS.enc.Base64.parse(SecretKey),{iv : iv});",
+							"    const concatText = iv.concat(encrypted.ciphertext)",
+							"  return concatText.toString(CryptoJS.enc.Base64);",
+							"}",
 							""
 						],
 						"type": "text/javascript"
 					}
 				}
 			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
 			"request": {
 				"method": "POST",
 				"header": [
@@ -365,9 +399,23 @@
 						"key": "x-bc-auth",
 						"type": "text",
 						"value": "{{x-bc-auth}}"
+					},
+					{
+						"key": "x-bc-encryptionmode",
+						"value": "CBC",
+						"type": "default"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/Identity/023040000001/02310100230400000010000000000002",
+				"body": {
+					"mode": "raw",
+					"raw": "{{TokenVerify}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://barocert.linkhub.co.kr/PASS/Identity/023070000014/02310100230700000140000000000002",
 				"description": "본인인증 요청시 반환된 접수아이디를 통해 본인인증 서명을 검증합니다. \r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
 			},
 			"response": []
@@ -387,8 +435,8 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"/**",
-							" *  카카오톡 이용자에게 단건(1건) 문서의 전자서명을 요청합니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/sign/api-single#RequestSign",
+							" *  패스 이용자에게 문서의 전자서명을 요청합니다.",
+							" *  https://developers.barocert.com/reference/pass/java/sign/api#RequestSign",
 							" */",
 							"var TokenRequest = stringify({",
 							"    ",
@@ -400,20 +448,43 @@
 							"    receiverBirthday: _AES256CBC('19700101'),",
 							"",
 							"    // 인증요청 메시지 제목 - 최대 40자",
-							"    reqTitle: '전자서명단건테스트',",
+							"    reqTitle: '전자서명 메시지 제목란',",
+							"    // 인증요청 메시지 - 최대 500자",
+							"    reqMessage: _AES256CBC('전자서명 메시지 내용란'),",
+							"    // 고객센터 연락처 - 최대 12자",
+							"    callCenterNum: '1600-9854',",
 							"    // 인증요청 만료시간 - 최대 1,000(초)까지 입력 가능",
 							"    expireIn: 1000,",
 							"    // 서명 원문 - 원문 2,800자 까지 입력가능",
 							"    token: _AES256CBC('전자서명단건테스트데이터'),",
 							"    // 서명 원문 유형",
-							"    // TEXT - 일반 텍스트, HASH - HASH 데이터",
-							"    tokenType: 'TEXT',",
+							"    // TEXT - 일반 텍스트, HASH - HASH 데이터, URL - URL 데이터",
+							"    // 원본데이터(originalTypeCode, originalURL, originalFormatCode) 입력시 TEXT 사용 불가",
+							"    tokenType: 'HASH',",
+							"",
+							"    // 사용자 동의 필요 여부",
+							"    userAgreementYN: true,",
+							"    // 사용자 정보 포함 여부",
+							"    receiverInfoYN: true,",
+							"",
+							"    // 원본유형코드",
+							"    // AG - 동의서, AP - 신청서, CT - 계약서, GD - 안내서, NT - 통지서, TR - 약관",
+							"    originalTypeCode: 'TR', ",
+							"    // 원본조회URL",
+							"    originalURL: 'https://www.passcert.co.kr',",
+							"    // 원본형태코드",
+							"    // (TEXT, HTML, DOCUMENT_IMAGE, DOWNLOAD_DOCUMENT)",
+							"    originalFormatCode: 'HTML',",
 							"",
 							"    // AppToApp 인증요청 여부",
-							"    // true - AppToApp 인증방식, false - Talk Message 인증방식",
+							"    // true - AppToApp 인증방식, false - Push 인증방식",
 							"    appUseYN: false,",
-							"    // App to App 방식 이용시, 호출할 URL",
-							"    returnURL: 'https://www.kakaocert.com',",
+							"    // ApptoApp 인증방식에서 사용",
+							"    // 통신사 유형('SKT', 'KT', 'LGU'), 대문자 입력(대소문자 구분)",
+							"    // telcoType: 'SKT',",
+							"    // ApptoApp 인증방식에서 사용",
+							"    // 모바일장비 유형('ANDROID', 'IOS'), 대문자 입력(대소문자 구분)",
+							"    // deviceOSType: 'ANDROID',",
 							"  });",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
@@ -490,7 +561,7 @@
 						}
 					}
 				},
-				"url": "https://barocert.linkhub.co.kr/KAKAO/Sign/023040000001",
+				"url": "https://barocert.linkhub.co.kr/PASS/Sign/023070000014",
 				"description": "카카오톡 사용자에게 전자서명을 요청합니다.(단건)"
 			},
 			"response": []
@@ -508,15 +579,19 @@
 							" */",
 							"",
 							"/**",
-							" *  전자서명(단건) 요청 후 반환받은 접수아이디로 인증 진행 상태를 확인합니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/sign/api-single#GetSignStatus",
+							" *  전자서명 요청 후 반환받은 접수아이디로 인증 진행 상태를 확인합니다.",
+							" *  상태확인 함수는 전자서명 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.",
+							" *  전자서명 요청 함수를 호출한 당일 23시 59분 59초 이후 상태확인 함수를 호출할 경우 오류가 반환됩니다.",
+							" *  https://developers.barocert.com/reference/pass/java/sign/api#GetSignStatus",
 							" */",
 							"// 전자서명 요청시 반환받은 접수아이디",
-							"var receiptID = '02310100230400000010000000000003'",
+							"var receiptID = '02310100230700000140000000000006'",
 							"// 이용기관코드, 파트너 사이트에서 확인",
-							"const clientCode = \"023040000001\";",
+							"const clientCode = \"023070000014\";",
 							"pm.collectionVariables.set(\"receiptID\", receiptID);",
-							"pm.collectionVariables.set(\"clientCode\", clientCode);"
+							"pm.collectionVariables.set(\"clientCode\", clientCode);",
+							"",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -541,7 +616,7 @@
 						"value": "2.1"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/Sign/{{clientCode}}/{{receiptID}}",
+				"url": "https://barocert.linkhub.co.kr/PASS/Sign/{{clientCode}}/{{receiptID}}",
 				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다. (단건)"
 			},
 			"response": []
@@ -563,14 +638,22 @@
 							"",
 							"/**",
 							" *  완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.",
-							" *  카카오 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.",
-							" *  전자서명 완료일시로부터 10분 이후에 검증 API를 호출하면 오류가 반환됩니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/sign/api-single#VerifySign",
+							" *  검증 함수는 전자서명 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.",
+							" *  전자서명 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.",
+							" *  https://developers.barocert.com/reference/pass/java/sign/api#VerifySign",
 							" */",
+							"var TokenVerify = stringify({",
+							"    // 수신자 휴대폰번호 - 11자 (하이픈 제외)",
+							"    receiverHP: _AES256CBC('01012341234'),",
+							"    // 수신자 성명 - 80자",
+							"    receiverName: _AES256CBC('홍길동'),",
+							"});",
+							"var Body = CryptoJS.SHA256(TokenVerify).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
 							"",
 							"var digestTarget =",
 							"      'POST\\n' +",
+							"      Body + '\\n' +",
 							"      RequestDT +'\\n' +",
 							"      uri + '\\n';",
 							"",
@@ -579,6 +662,7 @@
 							"// HMAC 인증을 위한 요청 헤더.",
 							"pm.collectionVariables.set(\"x-bc-auth\", Authorization);",
 							"pm.collectionVariables.set(\"x-bc-date\", RequestDT);",
+							"pm.collectionVariables.set(\"TokenVerify\", TokenVerify);",
 							"",
 							"function stringify(obj) {",
 							"  return JSON.stringify(obj,function(key,value){return !value ? undefined : value;});",
@@ -588,6 +672,13 @@
 							"    var keyDec = CryptoJS.enc.Base64.parse(key)",
 							"    var enc = CryptoJS.HmacSHA256(message, keyDec).toString(CryptoJS.enc.Base64);",
 							"    return enc;",
+							"}",
+							"",
+							"function _AES256CBC(plainText) {",
+							"    const iv = CryptoJS.lib.WordArray.random(16);",
+							"    const encrypted = CryptoJS.AES.encrypt(plainText,CryptoJS.enc.Base64.parse(SecretKey),{iv : iv});",
+							"    const concatText = iv.concat(encrypted.ciphertext)",
+							"  return concatText.toString(CryptoJS.enc.Base64);",
 							"}",
 							""
 						],
@@ -617,15 +708,29 @@
 						"key": "x-bc-auth",
 						"type": "text",
 						"value": "{{x-bc-auth}}"
+					},
+					{
+						"key": "x-bc-encryptionmode",
+						"value": "CBC",
+						"type": "default"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/Sign/023040000001/02310100230400000010000000000003",
+				"body": {
+					"mode": "raw",
+					"raw": "{{TokenVerify}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://barocert.linkhub.co.kr/PASS/Sign/023070000014/02310100230700000140000000000006",
 				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다. (단건)\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
 			},
 			"response": []
 		},
 		{
-			"name": "RequestMultiSign",
+			"name": "RequestLogin",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -639,8 +744,8 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"/**",
-							" *  카카오톡 이용자에게 복수(최대 20건) 문서의 전자서명을 요청합니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/sign/api-multi#RequestMultiSign",
+							" *  패스 이용자에게 간편로그인을 요청합니다.",
+							" *  https://developers.barocert.com/reference/pass/java/login/api#RequestLogin",
 							" */",
 							"var TokenRequest = stringify({",
 							"    ",
@@ -652,34 +757,30 @@
 							"    receiverBirthday: _AES256CBC('19700101'),",
 							"",
 							"    // 인증요청 메시지 제목 - 최대 40자",
-							"    reqTitle: '전자서명복수테스트',",
+							"    reqTitle: '간편로그인 메시지 제목란',",
+							"    // 인증요청 메시지 - 최대 500자",
+							"    reqMessage: _AES256CBC('간편로그인 메시지 내용란'),",
+							"    // 고객센터 연락처 - 최대 12자",
+							"    callCenterNum: '1600-9854',",
 							"    // 인증요청 만료시간 - 최대 1,000(초)까지 입력 가능",
 							"    expireIn: 1000,",
+							"    // 서명 원문 - 최대 2,800자 까지 입력가능",
+							"    token: _AES256CBC('간편로그인요청토큰'),",
 							"",
-							"    // 개별문서 등록 - 최대 20 건",
-							"    // 개별 요청 정보 객체",
-							"    tokens: [{",
-							"      // 인증요청 메시지 제목 - 최대 40자",
-							"      reqTitle: '전자서명복수문서테스트1',",
-							"      // 서명 원문 - 원문 2,800자 까지 입력가능",
-							"      token: _AES256CBC('전자서명복수테스트데이터1')",
-							"    }, {",
-							"      // 인증요청 메시지 제목 - 최대 40자",
-							"      reqTitle: '전자서명복수문서테스트2',",
-							"      // 서명 원문 - 원문 2,800자 까지 입력가능",
-							"      token: _AES256CBC('전자서명복수테스트데이터2')",
-							"    }],",
-							"",
-							"    // 서명 원문 유형",
-							"    // TEXT - 일반 텍스트, HASH - HASH 데이터",
-							"    tokenType: 'TEXT',",
+							"    // 사용자 동의 필요 여부",
+							"    userAgreementYN: true,",
+							"    // 사용자 정보 포함 여부",
+							"    receiverInfoYN: true,",
 							"",
 							"    // AppToApp 인증요청 여부",
-							"    // true - AppToApp 인증방식, false - Talk Message 인증방식",
+							"    // true - AppToApp 인증방식, false - Push 인증방식",
 							"    appUseYN: false,",
-							"",
-							"    // App to App 방식 이용시, 에러시 호출할 URL",
-							"    returnURL: 'https://www.kakaocert.com',",
+							"    // ApptoApp 인증방식에서 사용",
+							"    // 통신사 유형('SKT', 'KT', 'LGU'), 대문자 입력(대소문자 구분)",
+							"    // telcoType: 'SKT',",
+							"    // ApptoApp 인증방식에서 사용",
+							"    // 모바일장비 유형('ANDROID', 'IOS'), 대문자 입력(대소문자 구분)",
+							"    // deviceOSType: 'ANDROID',",
 							"});",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
@@ -756,13 +857,13 @@
 						}
 					}
 				},
-				"url": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/023040000001",
+				"url": "https://barocert.linkhub.co.kr/PASS/Login/023070000014",
 				"description": "카카오톡 사용자에게 전자서명을 요청합니다.(복수)"
 			},
 			"response": []
 		},
 		{
-			"name": "GetMultiSignStatus",
+			"name": "GetLoginStatus",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -774,13 +875,15 @@
 							" */",
 							"",
 							"/**",
-							" *  전자서명(복수) 요청 후 반환받은 접수아이디로 인증 진행 상태를 확인합니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/sign/api-multi#GetMultiSignStatus",
+							" *  간편로그인 요청 후 반환받은 접수아이디로 진행 상태를 확인합니다.",
+							" *  상태확인 함수는 간편로그인 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.",
+							" *  간편로그인 요청 함수를 호출한 당일 23시 59분 59초 이후 상태확인 함수를 호출할 경우 오류가 반환됩니다.",
+							" *  https://developers.barocert.com/reference/pass/java/login/api#GetLoginStatus",
 							" */",
-							"// 전자서명 요청시 반환받은 접수아이디",
-							"var receiptID = '02310100230400000010000000000006'",
+							"// 간편로그인 요청시 반환받은 접수아이디",
+							"var receiptID = '02310100230700000140000000000004'",
 							"// 이용기관코드, 파트너 사이트에서 확인",
-							"const clientCode = \"023040000001\";",
+							"const clientCode = \"023070000014\";",
 							"pm.collectionVariables.set(\"receiptID\", receiptID);",
 							"pm.collectionVariables.set(\"clientCode\", clientCode);"
 						],
@@ -807,13 +910,13 @@
 						"value": "2.1"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/{{clientCode}}/{{receiptID}}",
+				"url": "https://barocert.linkhub.co.kr/PASS/Login/{{clientCode}}/{{receiptID}}",
 				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다. (복수)"
 			},
 			"response": []
 		},
 		{
-			"name": "VerifyMultiSign",
+			"name": "VerifyLogin",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -829,14 +932,22 @@
 							"",
 							"/**",
 							" *  완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.",
-							" *  카카오 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.",
-							" *  전자서명 완료일시로부터 10분 이후에 검증 API를 호출하면 오류가 반환됩니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/sign/api-multi#VerifyMultiSign",
+							" *  검증 함수는 간편로그인 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.",
+							" *  간편로그인 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다",
+							" *  https://developers.barocert.com/reference/pass/java/login/api#VerifyLogin",
 							" */",
+							"var TokenVerify = stringify({",
+							"    // 수신자 휴대폰번호 - 11자 (하이픈 제외)",
+							"    receiverHP: _AES256CBC('01012341234'),",
+							"    // 수신자 성명 - 80자",
+							"    receiverName: _AES256CBC('홍길동'),",
+							"});",
+							"var Body = CryptoJS.SHA256(TokenVerify).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
 							"",
 							"var digestTarget =",
 							"      'POST\\n' +",
+							"      Body + '\\n' +",
 							"      RequestDT +'\\n' +",
 							"      uri + '\\n';",
 							"",
@@ -845,6 +956,7 @@
 							"// HMAC 인증을 위한 요청 헤더.",
 							"pm.collectionVariables.set(\"x-bc-auth\", Authorization);",
 							"pm.collectionVariables.set(\"x-bc-date\", RequestDT);",
+							"pm.collectionVariables.set(\"TokenVerify\", TokenVerify);",
 							"",
 							"function stringify(obj) {",
 							"  return JSON.stringify(obj,function(key,value){return !value ? undefined : value;});",
@@ -854,6 +966,13 @@
 							"    var keyDec = CryptoJS.enc.Base64.parse(key)",
 							"    var enc = CryptoJS.HmacSHA256(message, keyDec).toString(CryptoJS.enc.Base64);",
 							"    return enc;",
+							"}",
+							"",
+							"function _AES256CBC(plainText) {",
+							"    const iv = CryptoJS.lib.WordArray.random(16);",
+							"    const encrypted = CryptoJS.AES.encrypt(plainText,CryptoJS.enc.Base64.parse(SecretKey),{iv : iv});",
+							"    const concatText = iv.concat(encrypted.ciphertext)",
+							"  return concatText.toString(CryptoJS.enc.Base64);",
 							"}",
 							""
 						],
@@ -883,9 +1002,23 @@
 						"key": "x-bc-auth",
 						"type": "text",
 						"value": "{{x-bc-auth}}"
+					},
+					{
+						"key": "x-bc-encryptionmode",
+						"value": "CBC",
+						"type": "default"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/MultiSign/023040000001/02310100230400000010000000000006",
+				"body": {
+					"mode": "raw",
+					"raw": "{{TokenVerify}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://barocert.linkhub.co.kr/PASS/Login/023070000014/02310100230700000140000000000004",
 				"description": "전자서명 요청시 반환된 접수아이디를 통해 서명을 검증합니다. (복수)\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다"
 			},
 			"response": []
@@ -905,42 +1038,51 @@
 							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
 							"const uri = pm.request.url.getPath();",
 							"/**",
-							" *  카카오톡 이용자에게 자동이체 출금동의를 요청합니다.",
+							" *  패스 이용자에게 자동이체 출금동의를 요청합니다.",
 							" *  https://developers.barocert.com/reference/kakao/java/cms/api#RequestCMS",
 							" */",
 							"var TokenRequest = stringify({",
 							"    ",
 							"    // 수신자 휴대폰번호 - 11자 (하이픈 제외)",
-							"    receiverHP: _AES256CBC('01012341234'),",
+							"    receiverHP: _AES256CBC('01067668440'),",
 							"    // 수신자 성명 - 80자",
-							"    receiverName: _AES256CBC('홍길동'),",
+							"    receiverName: _AES256CBC('정우석'),",
 							"    // 수신자 생년월일 - 8자 (yyyyMMdd)",
-							"    receiverBirthday: _AES256CBC('19700101'),",
+							"    receiverBirthday: _AES256CBC('19900911'),",
 							"",
 							"    // 인증요청 메시지 제목 - 최대 40자",
-							"    reqTitle: '인증요청 메시지 제공란',",
+							"    reqTitle: '출금동의 메시지 제공란',",
+							"    // 인증요청 메시지 - 최대 500자",
+							"    reqMessage: _AES256CBC('출금동의 메시지 내용란'),",
+							"    // 고객센터 연락처 - 최대 12자",
+							"    callCenterNum: '1600-9854',",
 							"    // 인증요청 만료시간 - 최대 1,000(초)까지 입력 가능",
 							"    expireIn: 1000,",
-							"    // 청구기관명 - 최대 100자",
-							"    requestCorp: _AES256CBC('청구 기관명란'),",
+							"    // 사용자 동의 필요 여부",
+							"    userAgreementYN: true,",
+							"    // 사용자 정보 포함 여부",
+							"    receiverInfoYN: true,",
 							"    // 출금은행명 - 최대 100자",
-							"    bankName: _AES256CBC('출금은행명란'),",
+							"    bankName: _AES256CBC('국민은행'),",
 							"    // 출금계좌번호 - 최대 32자",
-							"    bankAccountNum: _AES256CBC('9-4324-5117-58'),",
+							"    bankAccountNum: _AES256CBC('9-****-5117-58'),",
 							"    // 출금계좌 예금주명 - 최대 100자",
-							"    bankAccountName: _AES256CBC('예금주명 입력란'),",
-							"    // 출금게좌 예금주 생년월일 - 최대 8자",
-							"    bankAccountBirthday: _AES256CBC('19700101'),",
+							"    bankAccountName: _AES256CBC('홍길동'),",
 							"    // 출금유형",
-							"    // CMS - 출금동의용, FIRM - 펌뱅킹, GIRO - 지로용",
+							"    // CMS - 출금동의, OPEN_BANK - 오픈뱅킹",
 							"    bankServiceType: _AES256CBC('CMS'),",
+							"    // 출금계좌 예금주명 - 최대 100자",
+							"    bankWithdraw: _AES256CBC('1,000,000원'),",
 							"",
 							"    // AppToApp 인증요청 여부",
-							"    // true - AppToApp 인증방식, false - Talk Message 인증방식",
+							"    // true - AppToApp 인증방식, false - Push 인증방식",
 							"    appUseYN: false,",
-							"",
-							"    // App to App 방식 이용시, 호출할 URL",
-							"    returnURL: 'https://www.kakaocert.com',",
+							"    // ApptoApp 인증방식에서 사용",
+							"    // 통신사 유형('SKT', 'KT', 'LGU'), 대문자 입력(대소문자 구분)",
+							"    // telcoType: 'SKT',",
+							"    // ApptoApp 인증방식에서 사용",
+							"    // 모바일장비 유형('ANDROID', 'IOS'), 대문자 입력(대소문자 구분)",
+							"    // deviceOSType: 'ANDROID',",
 							"});",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
@@ -1017,7 +1159,7 @@
 						}
 					}
 				},
-				"url": "https://barocert.linkhub.co.kr/KAKAO/CMS/023040000001",
+				"url": "https://barocert.linkhub.co.kr/PASS/CMS/023070000014",
 				"description": "카카오톡 사용자에게 자동이체 출금동의 전자서명을 요청합니다."
 			},
 			"response": []
@@ -1036,12 +1178,14 @@
 							"",
 							"/**",
 							" *  자동이체 출금동의 요청 후 반환받은 접수아이디로 인증 진행 상태를 확인합니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/cms/api#GetCMSStatus",
+							" *  상태확인 함수는 자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.",
+							" *  자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초 이후 상태확인 함수를 호출할 경우 오류가 반환됩니다.",
+							" *  https://developers.barocert.com/reference/pass/java/cms/api#GetCMSStatus",
 							" */",
-							"// 자동이체 출금동의 요청시 반환받은 접수아이디",
-							"var receiptID = '02310100230400000010000000000014'",
+							"// 자동이체 풀금동의 요청시 반환받은 접수아이디",
+							"var receiptID = '02310100230700000140000000000005'",
 							"// 이용기관코드, 파트너 사이트에서 확인",
-							"const clientCode = \"023040000001\";",
+							"const clientCode = \"023070000014\";",
 							"pm.collectionVariables.set(\"receiptID\", receiptID);",
 							"pm.collectionVariables.set(\"clientCode\", clientCode);"
 						],
@@ -1068,7 +1212,7 @@
 						"value": "2.1"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/CMS/{{clientCode}}/{{receiptID}}",
+				"url": "https://barocert.linkhub.co.kr/PASS/CMS/{{clientCode}}/{{receiptID}}",
 				"description": "자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명 상태를 확인합니다."
 			},
 			"response": []
@@ -1090,14 +1234,22 @@
 							"",
 							"/**",
 							" *  완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.",
-							" *  카카오 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.",
-							" *  전자서명 완료일시로부터 10분 이후에 검증 API를 호출하면 오류가 반환됩니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/cms/api#VerifyCMS",
+							" *  검증 함수는 자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.",
+							" *  자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.",
+							" *  https://developers.barocert.com/reference/pass/java/cms/api#VerifyCMS",
 							" */",
+							"var TokenVerify = stringify({",
+							"    // 수신자 휴대폰번호 - 11자 (하이픈 제외)",
+							"    receiverHP: _AES256CBC('01012341234'),",
+							"    // 수신자 성명 - 80자",
+							"    receiverName: _AES256CBC('홍길동'),",
+							"});",
+							"var Body = CryptoJS.SHA256(TokenVerify).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
 							"",
 							"var digestTarget =",
 							"      'POST\\n' +",
+							"      Body + '\\n' +",
 							"      RequestDT +'\\n' +",
 							"      uri + '\\n';",
 							"",
@@ -1106,6 +1258,7 @@
 							"// HMAC 인증을 위한 요청 헤더.",
 							"pm.collectionVariables.set(\"x-bc-auth\", Authorization);",
 							"pm.collectionVariables.set(\"x-bc-date\", RequestDT);",
+							"pm.collectionVariables.set(\"TokenVerify\", TokenVerify);",
 							"",
 							"function stringify(obj) {",
 							"  return JSON.stringify(obj,function(key,value){return !value ? undefined : value;});",
@@ -1115,6 +1268,13 @@
 							"    var keyDec = CryptoJS.enc.Base64.parse(key)",
 							"    var enc = CryptoJS.HmacSHA256(message, keyDec).toString(CryptoJS.enc.Base64);",
 							"    return enc;",
+							"}",
+							"",
+							"function _AES256CBC(plainText) {",
+							"    const iv = CryptoJS.lib.WordArray.random(16);",
+							"    const encrypted = CryptoJS.AES.encrypt(plainText,CryptoJS.enc.Base64.parse(SecretKey),{iv : iv});",
+							"    const concatText = iv.concat(encrypted.ciphertext)",
+							"  return concatText.toString(CryptoJS.enc.Base64);",
 							"}",
 							""
 						],
@@ -1144,87 +1304,23 @@
 						"key": "x-bc-auth",
 						"type": "text",
 						"value": "{{x-bc-auth}}"
+					},
+					{
+						"key": "x-bc-encryptionmode",
+						"value": "CBC",
+						"type": "default"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/CMS/023040000001/02310100230400000010000000000014",
-				"description": "자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다."
-			},
-			"response": []
-		},
-		{
-			"name": "VerifyLogin",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"exec": [
-							"/**",
-							" * API 호출전 GetToken을 실행해야 합니다.",
-							" * GetToken을 실행하면 Bearer Token 인증에 사용되는 토큰이 Collection Scope 변수에 저장됩니다.",
-							" */",
-							"const LinkID = 'TESTER';  // ex. 'LINKHUB'",
-							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
-							"const uri = pm.request.url.getPath();",
-							"",
-							"/**",
-							" *  완료된 전자서명을 검증하고 전자서명 데이터 전문(signedData)을 반환 받습니다.",
-							" *  카카오 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.",
-							" *  전자서명 완료일시로부터 10분 이후에 검증 API를 호출하면 오류가 반환됩니다.",
-							" *  https://developers.barocert.com/reference/kakao/java/login/api#VerifyLogin",
-							" */",
-							"var RequestDT = new Date().toISOString();",
-							"",
-							"var digestTarget =",
-							"      'POST\\n' +",
-							"      RequestDT +'\\n' +",
-							"      uri + '\\n';",
-							"",
-							"var Authorization = generateSignature(digestTarget, SecretKey);",
-							"",
-							"// HMAC 인증을 위한 요청 헤더.",
-							"pm.collectionVariables.set(\"x-bc-auth\", Authorization);",
-							"pm.collectionVariables.set(\"x-bc-date\", RequestDT);",
-							"",
-							"function stringify(obj) {",
-							"  return JSON.stringify(obj,function(key,value){return !value ? undefined : value;});",
-							"}",
-							"",
-							"function generateSignature(message, key) {",
-							"    var keyDec = CryptoJS.enc.Base64.parse(key)",
-							"    var enc = CryptoJS.HmacSHA256(message, keyDec).toString(CryptoJS.enc.Base64);",
-							"    return enc;",
-							"}",
-							""
-						],
-						"type": "text/javascript"
+				"body": {
+					"mode": "raw",
+					"raw": "{{TokenVerify}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
 					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"type": "text",
-						"value": "{{API_Session_Token}}"
-					},
-					{
-						"key": "x-bc-date",
-						"type": "text",
-						"value": "{{x-bc-date}}"
-					},
-					{
-						"key": "x-bc-version",
-						"type": "text",
-						"value": "2.1"
-					},
-					{
-						"key": "x-bc-auth",
-						"type": "text",
-						"value": "{{x-bc-auth}}"
-					}
-				],
-				"url": "https://barocert.linkhub.co.kr/KAKAO/Login/023040000001/011abcfc3a-d190-474e-8857-a66caf1389e7",
+				},
+				"url": "https://barocert.linkhub.co.kr/PASS/CMS/023070000014/02310100230700000140000000000005",
 				"description": "자동이체 출금동의 요청시 반환된 접수아이디를 통해 서명을 검증합니다.\r\n\r\n검증하기 API는 완료된 전자서명 요청당 1회만 요청 가능하며, 사용자가 서명을 완료후 유효시간(10분)이내에만 요청가능 합니다."
 			},
 			"response": []
@@ -1253,6 +1349,10 @@
 		},
 		{
 			"key": "clientCode",
+			"value": ""
+		},
+		{
+			"key": "TokenVerify",
 			"value": ""
 		}
 	]
