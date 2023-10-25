@@ -12,3 +12,8 @@ Barocert PostMan Script
 - 패스 전자서명 API
 - 패스 자동이체 출금동의 API
 - 패스 간편로그인 API
+
+### 네이버써트
+- 네이버 본인인증 API
+- 네이버 전자서명(단수) API
+- 네이버 전자서명(복수) API
