@@ -28,7 +28,7 @@
 							" */",
 							"",
 							"// Scopes 배열은 발급된 토큰으로 사용할 수 있는 서비스 코드 목록입니다.",
-							"var Access_id = ''; // 사업자번호.",
+							"var Access_id = '';",
 							"var Scopes = ['partner', '441','442','443','444'];",
 							"var TokenRequest = stringify({access_id : Access_id, scope : Scopes});",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
@@ -251,7 +251,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Identity/023070000014",
-				"description": "패스 이용자에게 본인인증을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/identity/api#RequestIdentity"
+				"description": "패스 이용자에게 본인인증을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/identity/api#RequestIdentity\n\n요청 URL: https://barocert.linkhub.co.kr/PASS/Identity/${clientCode}"
 			},
 			"response": []
 		},
@@ -416,7 +416,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Identity/023070000014/02310100230700000140000000000002",
-				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n반환받은 전자서명값(signedData)과 [1. RequestIdentity] 함수 호출에 입력한 Token의 동일 여부를 확인하여 이용자의 본인인증 검증을 완료합니다.\n검증 함수는 본인인증 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n본인인증 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/identity/api#VerifyIdentity"
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n반환받은 전자서명값(signedData)과 [1. RequestIdentity] 함수 호출에 입력한 Token의 동일 여부를 확인하여 이용자의 본인인증 검증을 완료합니다.\n검증 함수는 본인인증 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n본인인증 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/identity/api#VerifyIdentity\n\n요청 URL: https://barocert.linkhub.co.kr/PASS/Identity/${clientCode}/${receiptID}"
 			},
 			"response": []
 		},
@@ -562,7 +562,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Sign/023070000014",
-				"description": "패스 이용자에게 문서의 전자서명을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/sign/api#RequestSign"
+				"description": "패스 이용자에게 문서의 전자서명을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/sign/api#RequestSign\n\n요청 URL: https://barocert.linkhub.co.kr/PASS/Sign/${clientCode}"
 			},
 			"response": []
 		},
@@ -725,7 +725,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Sign/023070000014/02310100230700000140000000000006",
-				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 전자서명 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n전자서명 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/sign/api#VerifySign"
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 전자서명 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n전자서명 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/sign/api#VerifySign\n\n요청 URL: https://barocert.linkhub.co.kr/PASS/Sign/${clientCode}/${receiptID}"
 			},
 			"response": []
 		},
@@ -858,7 +858,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Login/023070000014",
-				"description": "패스 이용자에게 간편로그인을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/login/api#RequestLogin"
+				"description": "패스 이용자에게 간편로그인을 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/login/api#RequestLogin\n\n요청 URL: https://barocert.linkhub.co.kr/PASS/Login/${clientCode}"
 			},
 			"response": []
 		},
@@ -1019,7 +1019,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/Login/023070000014/02310100230700000140000000000004",
-				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 간편로그인 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n간편로그인 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/login/api#VerifyLogin"
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 간편로그인 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n간편로그인 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/login/api#VerifyLogin\n\n요청 URL: https://barocert.linkhub.co.kr/PASS/Login/${clientCode}/${receiptID}"
 			},
 			"response": []
 		},
@@ -1160,7 +1160,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/CMS/023070000014",
-				"description": "패스 이용자에게 자동이체 출금동의를 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/cms/api#RequestCMS"
+				"description": "패스 이용자에게 자동이체 출금동의를 요청합니다.\nhttps://developers.barocert.com/reference/pass/java/cms/api#RequestCMS\n\n요청 URL: https://barocert.linkhub.co.kr/PASS/CMS/${clientCode}"
 			},
 			"response": []
 		},
@@ -1321,7 +1321,7 @@
 					}
 				},
 				"url": "https://barocert.linkhub.co.kr/PASS/CMS/023070000014/02310100230700000140000000000007",
-				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/cms/api#VerifyCMS"
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n검증 함수는 자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초까지만 호출 가능합니다.\n자동이체 출금동의 요청 함수를 호출한 당일 23시 59분 59초 이후 검증 함수를 호출할 경우 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/pass/java/cms/api#VerifyCMS\n\n요청 URL: https://barocert.linkhub.co.kr/PASS/CMS/${clientCode}/${receiptID}"
 			},
 			"response": []
 		}
