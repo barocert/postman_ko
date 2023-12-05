@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d7f81187-35c5-4cbe-81e7-6e18734f81b9",
+		"_postman_id": "f558b37f-5669-40ba-8600-020b99f6e6ef",
 		"name": "Common KO_NaverCert API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -653,11 +653,11 @@
 							"var TokenRequest = stringify({",
 							"    ",
 							"    // 수신자 휴대폰번호 - 11자 (하이픈 제외)",
-							"    receiverHP: _AES256CBC('01067668440'),",
+							"    receiverHP: _AES256CBC('01012341234'),",
 							"    // 수신자 성명 - 80자",
-							"    receiverName: _AES256CBC('정우석'),",
+							"    receiverName: _AES256CBC('홍길동'),",
 							"    // 수신자 생년월일 - 8자 (yyyyMMdd)",
-							"    receiverBirthday: _AES256CBC('19900911'),",
+							"    receiverBirthday: _AES256CBC('19700101'),",
 							"",
 							"    // 인증요청 메시지 제목 - 최대 40자",
 							"    reqTitle: '전자서명(복수) 요청 메시지 제목',",
@@ -666,7 +666,7 @@
 							"    // 인증요청 만료시간 - 최대 1,000(초)까지 입력 가능",
 							"    expireIn: 1000,",
 							"    // 인증요청 메시지 내용 - 최대 500자",
-							"    reqMessage: _AES256CBC('전자서명(복수) 요청 메시지 내용'),",
+							"    reqMessage: _AES256CBC('전자서명(복수) 요청 메시지'),",
 							"    // 개별문서 등록 - 최대 50 건",
 							"    // 개별 요청 정보 객체",
 							"    tokens: [{",
@@ -674,7 +674,7 @@
 							"      // TEXT - 일반 텍스트, HASH - HASH 데이터",
 							"      tokenType: 'TEXT',",
 							"      // 서명 원문 - 원문 2,800자 까지 입력가능",
-							"      token: _AES256CBC('전자서명(복수) 요청 원문문 1')",
+							"      token: _AES256CBC('전자서명(복수) 요청 원문 1')",
 							"    }, {",
 							"      // 서명 원문 유형",
 							"      // TEXT - 일반 텍스트, HASH - HASH 데이터",
@@ -905,14 +905,6 @@
 	"variable": [
 		{
 			"key": "API_Session_Token",
-			"value": ""
-		},
-		{
-			"key": "receiptID",
-			"value": ""
-		},
-		{
-			"key": "clientCode",
 			"value": ""
 		},
 		{
