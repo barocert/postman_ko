@@ -17,3 +17,4 @@ Barocert PostMan Script
 - 네이버 본인인증 API
 - 네이버 전자서명(단수) API
 - 네이버 전자서명(복수) API
+- 네이버 출금동의 API
