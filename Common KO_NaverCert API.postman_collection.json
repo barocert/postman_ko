@@ -29,7 +29,7 @@
 							"",
 							"// Scopes 배열은 발급된 토큰으로 사용할 수 있는 서비스 코드 목록입니다.",
 							"var Access_id = '';",
-							"var Scopes = ['partner', '421','422','423'];",
+							"var Scopes = ['partner', '421','422','423', '424'];",
 							"var TokenRequest = stringify({access_id : Access_id, scope : Scopes});",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
 							"",
@@ -160,9 +160,9 @@
 							"    // App to App 방식에서 사용",
 							"    // 모바일장비 유형('ANDROID', 'IOS'), 대문자 입력(대소문자 구분)",
 							"    // deviceOSType: 'ANDROID',",
-							"    // App to App 방식에서 사용",
-							"    // 에러시 호출할 URL",
-							"    // returnURL: 'navercert://sign'",
+							"    // AppToApp 방식 이용시, 호출할 URL",
+							"    // \"http\", \"https\"등의 웹프로토콜 사용 불가",
+							"    // returnURL: 'navercert://identity'",
 							"});",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
 							"var RequestDT = new Date().toISOString();",
@@ -408,11 +408,15 @@
 							"    expireIn: 1000,",
 							"    // 인증요청 메시지 내용 - 최대 500자",
 							"    reqMessage: _AES256CBC('전자서명(단건) 요청 메시지 내용'),",
-							"    // 서명 원문 - 원문 2,800자 까지 입력가능",
-							"    token: _AES256CBC('전자서명(단건) 요청 원문'),",
 							"    // 서명 원문 유형",
 							"    // TEXT - 일반 텍스트, HASH - HASH 데이터",
 							"    tokenType: 'TEXT',",
+							"    // 서명 원문 - 원문 2,800자 까지 입력가능",
+							"    token: _AES256CBC('전자서명(단건) 요청 원문'),",
+							"    // 서명 원문 유형",
+							"    // tokenType: 'HASH',",
+							"    // 서명 원문 유형이 HASH인 경우, 원문은 SHA-256, Base64 URL Safe No Padding을 사용",
+							"    // token: _AES256CBC(_SHA256('전자서명(단건) 요청 원문')),",
 							"",
 							"    // AppToApp 인증요청 여부",
 							"    // true - AppToApp 인증방식, false - Push 인증방식",
@@ -420,8 +424,8 @@
 							"    // App to App 방식에서 사용",
 							"    // 모바일장비 유형('ANDROID', 'IOS'), 대문자 입력(대소문자 구분)",
 							"    // deviceOSType: 'ANDROID',",
-							"    // App to App 방식에서 사용",
-							"    // 에러시 호출할 URL",
+							"    // AppToApp 방식 이용시, 호출할 URL",
+							"    // \"http\", \"https\"등의 웹프로토콜 사용 불가",
 							"    // returnURL: 'navercert://sign'",
 							"  });",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
@@ -455,6 +459,11 @@
 							"    const encrypted = CryptoJS.AES.encrypt(plainText,CryptoJS.enc.Base64.parse(SecretKey),{iv : iv});",
 							"    const concatText = iv.concat(encrypted.ciphertext)",
 							"  return concatText.toString(CryptoJS.enc.Base64);",
+							"}",
+							"",
+							"function _SHA256(target) {",
+							"    const hash = CryptoJS.SHA256(target);",
+							"    return hash.toString(CryptoJS.enc.Base64).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');",
 							"}"
 						],
 						"type": "text/javascript"
@@ -675,12 +684,20 @@
 							"      tokenType: 'TEXT',",
 							"      // 서명 원문 - 원문 2,800자 까지 입력가능",
 							"      token: _AES256CBC('전자서명(복수) 요청 원문 1')",
+							"      // 서명 원문 유형",
+							"      // tokenType: 'HASH',",
+							"      // 서명 원문 유형이 HASH인 경우, 원문은 SHA-256, Base64 URL Safe No Padding을 사용",
+							"      // token: _AES256CBC(_SHA256('전자서명(단건) 요청 원문 1')),",
 							"    }, {",
 							"      // 서명 원문 유형",
 							"      // TEXT - 일반 텍스트, HASH - HASH 데이터",
 							"      tokenType: 'TEXT',",
 							"      // 서명 원문 - 원문 2,800자 까지 입력가능",
 							"      token: _AES256CBC('전자서명(복수) 요청 원문 2')",
+							"      // 서명 원문 유형",
+							"      // tokenType: 'HASH',",
+							"      // 서명 원문 유형이 HASH인 경우, 원문은 SHA-256, Base64 URL Safe No Padding을 사용",
+							"      // token: _AES256CBC(_SHA256('전자서명(단건) 요청 원문 2')),",
 							"    }],",
 							"",
 							"    // AppToApp 인증요청 여부",
@@ -689,8 +706,8 @@
 							"    // App to App 방식에서 사용",
 							"    // 모바일장비 유형('ANDROID', 'IOS'), 대문자 입력(대소문자 구분)",
 							"    // deviceOSType: 'ANDROID',",
-							"    // App to App 방식에서 사용",
-							"    // 에러시 호출할 URL",
+							"    // AppToApp 방식 이용시, 호출할 URL",
+							"    // \"http\", \"https\"등의 웹프로토콜 사용 불가가",
 							"    // returnURL: 'navercert://sign'",
 							"});",
 							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
@@ -724,6 +741,11 @@
 							"    const encrypted = CryptoJS.AES.encrypt(plainText,CryptoJS.enc.Base64.parse(SecretKey),{iv : iv});",
 							"    const concatText = iv.concat(encrypted.ciphertext)",
 							"  return concatText.toString(CryptoJS.enc.Base64);",
+							"}",
+							"",
+							"function _SHA256(target) {",
+							"    const hash = CryptoJS.SHA256(target);",
+							"    return hash.toString(CryptoJS.enc.Base64).replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');",
 							"}"
 						],
 						"type": "text/javascript"
@@ -900,6 +922,272 @@
 				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n네이버 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/naver/java/sign/api-multi#VerifyMultiSign\n\n요청 URL: https://barocert.linkhub.co.kr/NAVER/MultiSign/${clientCode}/${receiptID}"
 			},
 			"response": []
+		},
+		{
+			"name": "RequestCMS",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"/**",
+							" * API 호출전 GetToken을 실행해야 합니다.",
+							" * GetToken을 실행하면 Bearer Token 인증에 사용되는 토큰이 Collection Scope 변수에 저장됩니다.",
+							" */",
+							"const LinkID = 'TESTER';  // ex. 'LINKHUB'",
+							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
+							"const uri = pm.request.url.getPath();",
+							"/**",
+							" * 네이버 이용자에게 자동이체 출금동의를 요청합니다.",
+							" * https://developers.barocert.com/reference/naver/java/cms/api#RequestCMS",
+							" */",
+							"var TokenRequest = stringify({",
+							"",
+							"    // 수신자 휴대폰번호 - 11자 (하이픈 제외)",
+							"    receiverHP: _AES256CBC('01012341324'),",
+							"    // 수신자 성명 - 80자",
+							"    receiverName: _AES256CBC('홍길동'),",
+							"    // 수신자 생년월일 - 8자 (yyyyMMdd)",
+							"    receiverBirthday: _AES256CBC('19700101'),",
+							"",
+							"    // 인증요청 메시지 제목",
+							"    reqTitle: '출금동의 요청 메시지 제목',",
+							"    // 인증요청 메시지",
+							"    reqMessage: _AES256CBC('출금동의 요청 메시지'),",
+							"    // 고객센터 연락처 - 최대 12자",
+							"    callCenterNum: \"1600-9854\",",
+							"    // 인증요청 만료시간 - 최대 1,000(초)까지 입력 가능",
+							"    expireIn: 1000,",
+							"",
+							"    // 청구기관명",
+							"    requestCorp: _AES256CBC('청구기관'),",
+							"    // 출금은행명",
+							"    bankName: _AES256CBC('출금은행'),",
+							"    // 출금계좌번호",
+							"    bankAccountNum: _AES256CBC('123-456-7890'),",
+							"    // 출금계좌 예금주명",
+							"    bankAccountName: _AES256CBC('홍길동'),",
+							"    // 출금계좌 예금주 생년월일",
+							"    bankAccountBirthday: _AES256CBC('19700101'),",
+							"",
+							"    // AppToApp 인증요청 여부",
+							"    // true - AppToApp 인증방식, false - Push 인증방식",
+							"    appUseYN: false,",
+							"    // App to App 방식에서 사용",
+							"    // 모바일장비 유형('ANDROID', 'IOS'), 대문자 입력(대소문자 구분)",
+							"    // deviceOSType: 'ANDROID',",
+							"    // AppToApp 방식 이용시, 호출할 URL",
+							"    // \"http\", \"https\"등의 웹프로토콜 사용 불가",
+							"    // returnURL: 'navercert://cms'",
+							"});",
+							"var Body = CryptoJS.SHA256(TokenRequest).toString(CryptoJS.enc.Base64);",
+							"var RequestDT = new Date().toISOString();",
+							"",
+							"var digestTarget =",
+							"      'POST\\n' +",
+							"      Body + '\\n' +",
+							"      RequestDT +'\\n' +",
+							"      uri + '\\n';",
+							"",
+							"var Authorization = generateSignature(digestTarget, SecretKey);",
+							"",
+							"// HMAC 인증을 위한 요청 헤더.",
+							"pm.collectionVariables.set(\"x-bc-auth\", Authorization);",
+							"pm.collectionVariables.set(\"x-bc-date\", RequestDT);",
+							"pm.collectionVariables.set(\"TokenRequest\", TokenRequest);",
+							"",
+							"function stringify(obj) {",
+							"  return JSON.stringify(obj,function(key,value){return !value ? undefined : value;});",
+							"}",
+							"",
+							"function generateSignature(message, key) {",
+							"    var keyDec = CryptoJS.enc.Base64.parse(key)",
+							"    var enc = CryptoJS.HmacSHA256(message, keyDec).toString(CryptoJS.enc.Base64);",
+							"    return enc;",
+							"}",
+							"",
+							"function _AES256CBC(plainText) {",
+							"    const iv = CryptoJS.lib.WordArray.random(16);",
+							"    const encrypted = CryptoJS.AES.encrypt(plainText,CryptoJS.enc.Base64.parse(SecretKey),{iv : iv});",
+							"    const concatText = iv.concat(encrypted.ciphertext)",
+							"  return concatText.toString(CryptoJS.enc.Base64);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{API_Session_Token}}"
+					},
+					{
+						"key": "x-bc-date",
+						"type": "text",
+						"value": "{{x-bc-date}}"
+					},
+					{
+						"key": "x-bc-auth",
+						"type": "text",
+						"value": "{{x-bc-auth}}"
+					},
+					{
+						"key": "x-bc-version",
+						"type": "text",
+						"value": "2.1"
+					},
+					{
+						"key": "x-bc-encryptionmode",
+						"value": "CBC",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{TokenRequest}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://barocert.linkhub.co.kr/NAVER/CMS/023090000021",
+				"description": "네이버 이용자에게 본인인증을 요청합니다.\nhttps://developers.barocert.com/reference/naver/java/identity/api#RequestIdentity\n\n요청 URL: https://barocert.linkhub.co.kr/NAVER/Identity/${clientCode}"
+			},
+			"response": []
+		},
+		{
+			"name": "GetCMSStatus",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"/**",
+							" * API 호출전 GetToken을 실행해야 합니다.",
+							" * GetToken을 실행하면 Bearer Token 인증에 사용되는 토큰이 Collection Scope 변수에 저장됩니다.",
+							" */",
+							"",
+							"/**",
+							" * 자동이체 출금동의 요청 후 반환받은 접수아이디로 인증 진행 상태를 확인합니다.",
+							" * https://developers.barocert.com/reference/naver/java/cms/api#GetCMSStatus",
+							" */",
+							"// 출금동의 요청시 반환받은 접수아이디",
+							"var receiptID = '02312110230900000210000000000024'",
+							"// 이용기관코드, 파트너 사이트에서 확인",
+							"const clientCode = \"023090000021\";",
+							"pm.collectionVariables.set(\"receiptID\", receiptID);",
+							"pm.collectionVariables.set(\"clientCode\", clientCode);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{API_Session_Token}}"
+					},
+					{
+						"key": "x-bc-date",
+						"type": "text",
+						"value": "{{DateTime}}"
+					},
+					{
+						"key": "x-bc-version",
+						"type": "text",
+						"value": "2.1"
+					}
+				],
+				"url": "https://barocert.linkhub.co.kr/NAVER/CMS/{{clientCode}}/{{receiptID}}",
+				"description": "본인인증 요청 후 반환받은 접수아이디로 본인인증 진행 상태를 확인합니다.\nhttps://developers.barocert.com/reference/naver/java/identity/api#GetIdentityStatus"
+			},
+			"response": []
+		},
+		{
+			"name": "VerifyCMS",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"/**",
+							" * API 호출전 GetToken을 실행해야 합니다.",
+							" * GetToken을 실행하면 Bearer Token 인증에 사용되는 토큰이 Collection Scope 변수에 저장됩니다.",
+							" */",
+							"const LinkID = 'TESTER';  // ex. 'LINKHUB'",
+							"const SecretKey = 'SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I='; //ex. 'CAuU7dpL4viqfoT6G+HJjqWzHhg3hRDD5sKIkp7Yqwc='",
+							"const uri = pm.request.url.getPath();",
+							"",
+							"/**",
+							" * 완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.",
+							" * 네이버 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.",
+							" * 전자서명 만료일시 이후에 검증 API를 호출하면 오류가 반환됩니다.",
+							" * https://developers.barocert.com/reference/naver/java/cms/api#VerifyCMS",
+							" */",
+							"var RequestDT = new Date().toISOString();",
+							"",
+							"var digestTarget =",
+							"      'POST\\n' +",
+							"      RequestDT +'\\n' +",
+							"      uri + '\\n';",
+							"",
+							"var Authorization = generateSignature(digestTarget, SecretKey);",
+							"",
+							"// HMAC 인증을 위한 요청 헤더.",
+							"pm.collectionVariables.set(\"x-bc-auth\", Authorization);",
+							"pm.collectionVariables.set(\"x-bc-date\", RequestDT);",
+							"",
+							"function stringify(obj) {",
+							"  return JSON.stringify(obj,function(key,value){return !value ? undefined : value;});",
+							"}",
+							"",
+							"function generateSignature(message, key) {",
+							"    var keyDec = CryptoJS.enc.Base64.parse(key)",
+							"    var enc = CryptoJS.HmacSHA256(message, keyDec).toString(CryptoJS.enc.Base64);",
+							"    return enc;",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{API_Session_Token}}"
+					},
+					{
+						"key": "x-bc-date",
+						"type": "text",
+						"value": "{{x-bc-date}}"
+					},
+					{
+						"key": "x-bc-version",
+						"type": "text",
+						"value": "2.1"
+					},
+					{
+						"key": "x-bc-auth",
+						"type": "text",
+						"value": "{{x-bc-auth}}"
+					}
+				],
+				"url": "https://barocert.linkhub.co.kr/NAVER/CMS/023090000021/02312110230900000210000000000024",
+				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n반환받은 전자서명값(signedData)과 [1. RequestIdentity] 함수 호출에 입력한 Token의 동일 여부를 확인하여 이용자의 본인인증 검증을 완료합니다.\n네이버 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/naver/java/identity/api#VerifyIdentity\n\n요청 URL: https://barocert.linkhub.co.kr/NAVER/Identity/${clientCode}/${receiptID}"
+			},
+			"response": []
 		}
 	],
 	"variable": [
@@ -917,6 +1205,14 @@
 		},
 		{
 			"key": "TokenRequest",
+			"value": ""
+		},
+		{
+			"key": "receiptID",
+			"value": ""
+		},
+		{
+			"key": "clientCode",
 			"value": ""
 		}
 	]
