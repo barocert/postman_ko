@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f558b37f-5669-40ba-8600-020b99f6e6ef",
+		"_postman_id": "653a7f25-6d14-400f-ad71-65da215d87ea",
 		"name": "Common KO_NaverCert API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -368,7 +368,7 @@
 						"value": "{{x-bc-auth}}"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/NAVER/Identity/023090000021/02310250230900000210000000000006",
+				"url": "https://barocert.linkhub.co.kr/NAVER/Identity/Verify/023090000021/02310250230900000210000000000006",
 				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n반환받은 전자서명값(signedData)과 [1. RequestIdentity] 함수 호출에 입력한 Token의 동일 여부를 확인하여 이용자의 본인인증 검증을 완료합니다.\n네이버 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/naver/java/identity/api#VerifyIdentity\n\n요청 URL: https://barocert.linkhub.co.kr/NAVER/Identity/${clientCode}/${receiptID}"
 			},
 			"response": []
@@ -636,7 +636,7 @@
 						"value": "{{x-bc-auth}}"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/NAVER/Sign/023090000021/02310250230900000210000000000008",
+				"url": "https://barocert.linkhub.co.kr/NAVER/Sign/Verify/023090000021/02310250230900000210000000000008",
 				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n네이버 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/naver/java/sign/api-single#VerifySign\n\n요청 URL: https://barocert.linkhub.co.kr/NAVER/Sign/${clientCode}/${receiptID}"
 			},
 			"response": []
@@ -918,7 +918,7 @@
 						"value": "{{x-bc-auth}}"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/NAVER/MultiSign/023090000021/02310250230900000210000000000010",
+				"url": "https://barocert.linkhub.co.kr/NAVER/MultiSign/Verify/023090000021/02310250230900000210000000000010",
 				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n네이버 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/naver/java/sign/api-multi#VerifyMultiSign\n\n요청 URL: https://barocert.linkhub.co.kr/NAVER/MultiSign/${clientCode}/${receiptID}"
 			},
 			"response": []
@@ -1184,7 +1184,7 @@
 						"value": "{{x-bc-auth}}"
 					}
 				],
-				"url": "https://barocert.linkhub.co.kr/NAVER/CMS/023090000021/02312110230900000210000000000024",
+				"url": "https://barocert.linkhub.co.kr/NAVER/CMS/Verify/023090000021/02312110230900000210000000000024",
 				"description": "완료된 전자서명을 검증하고 전자서명값(signedData)을 반환 받습니다.\n네이버 보안정책에 따라 검증 API는 1회만 호출할 수 있습니다. 재시도시 오류가 반환됩니다.\n전자서명 만료일시 이후에 검증 API를 호출하면 오류가 반환됩니다.\nhttps://developers.barocert.com/reference/naver/java/cms/api#VerifyCMS\n\n요청 URL: https://barocert.linkhub.co.kr/NAVER/CMS/${clientCode}/${receiptID}"
 			},
 			"response": []
